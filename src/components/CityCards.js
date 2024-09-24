@@ -10,11 +10,11 @@ const cities = [
     temp: '22',
   },
   {
-    name: 'Sydney',
+    name: 'New York',
     temp: '22',
   },
   {
-    name: 'Sydney',
+    name: 'London',
     temp: '22',
   },
 ];
@@ -23,7 +23,7 @@ function CityCards() {
   return (
     <div style={{ display: 'flex' }}>
       {cities.map((city) => (
-        <div>
+        <div style={{ margin: '10px' }}>
           <div>{city.name}</div>
           <div>{city.temp}</div>
         </div>

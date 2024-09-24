@@ -3,17 +3,15 @@ import React from 'react';
 const infos = {
   windSpeed: '10km/h',
   temp: '22',
-  humidity: '50',
+  humidity: '50%',
   pm25: '20',
 };
 
 function WeatherInfo() {
   return (
-    <div>
+    <div style={{ display: 'flex' }}>
       {Object.entries(infos).map(([key, value]) => (
-        <div>
-          {key}:{value}
-        </div>
+        <div>{value}</div>
       ))}
     </div>
   );

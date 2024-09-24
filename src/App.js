@@ -16,14 +16,17 @@ function App() {
             <WeatherInfo />
           </div>
         </div>
-      </div>
-      <div style={{ display: 'flex', flexFlow: 'column' }}>
-        <div>
-          <CityCards />
-        </div>
-        <SearchBar />
-        <div>
-          <WeatherForecast />
+
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div>
+            <WeatherForecast />
+          </div>
+          <div>
+            <SearchBar />
+          </div>
+          <div>
+            <CityCards />
+          </div>
         </div>
       </div>
     </div>

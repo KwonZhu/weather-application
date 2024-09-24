@@ -10,7 +10,7 @@ function WeatherDetails() {
   return (
     <div>
       <div>{weather.city}</div>
-      <div>{weather.city}</div>
+      <div>{weather.temp}</div>
       <div>{weather.tempRange}</div>
     </div>
   );
