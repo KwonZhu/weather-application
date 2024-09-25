@@ -1,17 +1,11 @@
 import React from 'react';
 
-const weather = {
-  city: 'Sydney',
-  temp: '22',
-  tempRange: '15 ~ 25 ',
-};
-
-function WeatherDetails() {
+function WeatherDetails({ city, temp, tempRange }) {
   return (
     <div>
-      <div>{weather.city}</div>
-      <div>{weather.temp}</div>
-      <div>{weather.tempRange}</div>
+      <div>{city}</div>
+      <div>{temp}</div>
+      <div>{tempRange}</div>
     </div>
   );
 }

@@ -1,10 +1,17 @@
 import React from 'react';
 
-function SearchBar() {
+function SearchBar({ inputValue, handleSetInputValueChange, handleSetCityChange }) {
   return (
     <div>
-      <input />
-      <button>Search</button>
+      {/* user input */}
+      <input
+        type="text"
+        placeholder="search for courses by title"
+        value={inputValue}
+        onChange={handleSetInputValueChange}
+      />
+      {/* trigger new API call when click*/}
+      <button onClick={handleSetCityChange}>Search</button>
     </div>
   );
 }

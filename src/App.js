@@ -5,9 +5,7 @@ import WeatherDetails from './components/WeatherDetails';
 import WeatherInfo from './components/WeatherInfo';
 import { useState, useEffect } from 'react';
 
-const city = 'Sydney';
 const API_KEY = '00aa3e4aa3f4496da4194153242209';
-const API_URL = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=1&aqi=yes&alerts=yes`;
 
 function App() {
   const [weather, setWeather] = useState({
@@ -18,17 +16,31 @@ function App() {
     uv: '',
     pm25: '',
   });
+  const [city, setCity] = useState('Sydney');
+  const [inputValue, setInputValue] = useState('');
 
-  // fetch weather from the weather API
+  const handleSetInputValueChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  // search button triggers useEffect to do new API call
+  const handleSetCityChange = () => {
+    if (inputValue) {
+      setCity(inputValue);
+    }
+  };
+
+  // fetch weather from the weather API on initial render and when city changes
   useEffect(() => {
     const fetchWeather = async () => {
+      const API_URL = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=1&aqi=yes&alerts=yes`;
       try {
         const response = await fetch(API_URL);
         if (!response.ok) {
-          throw new Error(`Fail to fetch weather data`); //city weather data
+          throw new Error(`Fail to fetch weather data`);
         }
         const data = await response.json();
-        // Destructuring returned weather data
+        // Destructuring the weather data
         const {
           current: { temp_c: temp, wind_kph: windSpeed, humidity, uv },
           forecast: { forecastday },
@@ -49,7 +61,7 @@ function App() {
       }
     };
     fetchWeather();
-  }, []);
+  }, [city]); //fetch weather on initial render and when city changes
 
   return (
     <div className="App">
@@ -64,7 +76,7 @@ function App() {
       <div style={{ display: 'flex' }}>
         <div>
           <div>
-            <WeatherDetails />
+            <WeatherDetails city={city} temp={weather.temp} tempRange={weather.tempRange} />
           </div>
           <div>
             <WeatherInfo />
@@ -76,7 +88,11 @@ function App() {
             <WeatherForecast />
           </div>
           <div>
-            <SearchBar />
+            <SearchBar
+              inputValue={inputValue}
+              handleSetInputValueChange={handleSetInputValueChange}
+              handleSetCityChange={handleSetCityChange}
+            />
           </div>
           <div>
             <CityCards />
