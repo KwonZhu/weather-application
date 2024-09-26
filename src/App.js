@@ -19,6 +19,25 @@ function App() {
   const [city, setCity] = useState('Sydney');
   const [inputValue, setInputValue] = useState('');
 
+  const handleWeatherChange = (data) => {
+    // Destructuring the weather API data
+    const {
+      current: { temp_c: temp, wind_kph: windSpeed, humidity, uv },
+      forecast: { forecastday },
+    } = data;
+    const {
+      day: { maxtemp_c, mintemp_c },
+    } = forecastday[0];
+    setWeather((prevWeather) => ({
+      ...prevWeather,
+      temp,
+      tempRange: `${mintemp_c}°C - ${maxtemp_c}°C`,
+      windSpeed,
+      humidity,
+      uv,
+    }));
+  };
+
   const handleSetInputValueChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -40,22 +59,7 @@ function App() {
           throw new Error(`Fail to fetch weather data`);
         }
         const data = await response.json();
-        // Destructuring the weather data
-        const {
-          current: { temp_c: temp, wind_kph: windSpeed, humidity, uv },
-          forecast: { forecastday },
-        } = data;
-        const {
-          day: { maxtemp_c, mintemp_c },
-        } = forecastday[0];
-        setWeather((prevWeather) => ({
-          ...prevWeather,
-          temp,
-          tempRange: `${mintemp_c}°C - ${maxtemp_c}°C`,
-          windSpeed,
-          humidity,
-          uv,
-        }));
+        handleWeatherChange(data);
       } catch (error) {
         console.error('Error:', error.message);
       }
