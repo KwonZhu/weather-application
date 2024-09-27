@@ -10,13 +10,16 @@ const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday
 
 function App() {
   const [weather, setWeather] = useState({
-    localTime: '',
-    temp: '',
-    tempRange: '',
-    windSpeed: '',
-    humidity: '',
-    uv: '',
-    pm25: '',
+    today: {
+      localTime: '',
+      day: '',
+      temp: '',
+      tempRange: '',
+      windSpeed: '',
+      humidity: '',
+      uv: '',
+      pm25: '',
+    },
     fourDaysForecast: [],
   });
   const [city, setCity] = useState('Sydney');
@@ -41,10 +44,22 @@ function App() {
       forecast: { forecastday },
     } = data;
     const {
+      date: todayDate,
       day: { maxtemp_c, mintemp_c },
     } = forecastday[0];
+
+    const today = {
+      localTime,
+      day: getDayFromDate(todayDate),
+      temp,
+      tempRange: `${mintemp_c}°C - ${maxtemp_c}°C`,
+      windSpeed,
+      humidity,
+      uv,
+      pm25,
+    };
     // transforms subarray(from index 1 to 4) data (date, day, tempRange) for each forecasted day
-    // fourDaysForecast[{date, day, tempRange}, {date, day, tempRange},...]
+    // fourDaysForecast[{date:"...", day:"...", tempRange:"..."}, {date, day, tempRange},...]
     const fourDaysForecast = forecastday.slice(1, 5).map(({ date, day }) => ({
       date,
       day: getDayFromDate(date),
@@ -52,13 +67,7 @@ function App() {
     }));
     setWeather((prevWeather) => ({
       ...prevWeather,
-      localTime,
-      temp,
-      tempRange: `${mintemp_c}°C - ${maxtemp_c}°C`,
-      windSpeed,
-      humidity,
-      uv,
-      pm25,
+      today,
       fourDaysForecast,
     }));
   };
@@ -74,7 +83,6 @@ function App() {
     }
   };
 
-  // fetch weather from the weather API on initial render and when city changes
   useEffect(() => {
     const fetchWeather = async () => {
       const API_URL = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=5&aqi=yes&alerts=yes`;
@@ -96,13 +104,14 @@ function App() {
     <div className="App">
       <div>
         today
-        <p>Local Time: {weather.localTime}</p>
-        <p>Temperature: {weather.temp}°C</p>
-        <p>Wind Speed: {weather.windSpeed} kph</p>
-        <p>Humidity: {weather.humidity}%</p>
-        <p>UV Index: {weather.uv}</p>
-        <p>Temperature Range: {weather.tempRange}</p>
-        <p>PM25: {weather.pm25}</p>
+        <p>Local Time: {weather.today.localTime}</p>
+        <p>Day: {weather.today.day}</p>
+        <p>Temperature: {weather.today.temp}°C</p>
+        <p>Wind Speed: {weather.today.windSpeed} kph</p>
+        <p>Humidity: {weather.today.humidity}%</p>
+        <p>UV Index: {weather.today.uv}</p>
+        <p>Temperature Range: {weather.today.tempRange}</p>
+        <p>PM25: {weather.today.pm25}</p>
       </div>
 
       <div style={{ display: 'flex' }}>
@@ -110,17 +119,18 @@ function App() {
           <div>
             <WeatherDetails
               city={city}
-              localTime={weather.localTime}
-              temp={weather.temp}
-              tempRange={weather.tempRange}
+              localTime={weather.today.localTime}
+              day={weather.today.day}
+              temp={weather.today.temp}
+              tempRange={weather.today.tempRange}
             />
           </div>
           <div>
             <WeatherInfos
-              windSpeed={weather.windSpeed}
-              humidity={weather.humidity}
-              uv={weather.uv}
-              pm25={weather.pm25}
+              windSpeed={weather.today.windSpeed}
+              humidity={weather.today.humidity}
+              uv={weather.today.uv}
+              pm25={weather.today.pm25}
             />
           </div>
         </div>
