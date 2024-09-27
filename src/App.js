@@ -2,39 +2,64 @@ import SearchBar from './components/SearchBar';
 import WeatherForecast from './components/WeatherForecast';
 import CityCards from './components/CityCards';
 import WeatherDetails from './components/WeatherDetails';
-import WeatherInfo from './components/WeatherInfo';
+import WeatherInfos from './components/WeatherInfos';
 import { useState, useEffect } from 'react';
 
 const API_KEY = '00aa3e4aa3f4496da4194153242209';
+const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 function App() {
   const [weather, setWeather] = useState({
+    localTime: '',
     temp: '',
     tempRange: '',
     windSpeed: '',
     humidity: '',
     uv: '',
     pm25: '',
+    fourDaysForecast: [],
   });
   const [city, setCity] = useState('Sydney');
   const [inputValue, setInputValue] = useState('');
 
+  const getDayFromDate = (dateString) => {
+    const date = new Date(dateString);
+    return weekday[date.getDay()]; //getDay() return 0 - 6
+  };
+
   const handleWeatherChange = (data) => {
     // Destructuring the weather API data
     const {
-      current: { temp_c: temp, wind_kph: windSpeed, humidity, uv },
+      location: { localtime: localTime },
+      current: {
+        temp_c: temp,
+        wind_kph: windSpeed,
+        humidity,
+        uv,
+        air_quality: { pm2_5: pm25 },
+      },
       forecast: { forecastday },
     } = data;
     const {
       day: { maxtemp_c, mintemp_c },
     } = forecastday[0];
+    // transforms subarray(from index 1 to 4) data (date, day, tempRange) for each forecasted day
+    // fourDaysForecast[{date, day, tempRange}, {date, day, tempRange},...]
+    const fourDaysForecast = forecastday.slice(1, 5).map(({ date, day }) => ({
+      date,
+      day: getDayFromDate(date),
+      tempRange: `${day.mintemp_c}°C - ${day.maxtemp_c}°C`,
+    }));
     setWeather((prevWeather) => ({
       ...prevWeather,
+      localTime,
       temp,
       tempRange: `${mintemp_c}°C - ${maxtemp_c}°C`,
       windSpeed,
       humidity,
       uv,
+      pm25,
+      fourDaysForecast,
     }));
   };
 
@@ -52,7 +77,7 @@ function App() {
   // fetch weather from the weather API on initial render and when city changes
   useEffect(() => {
     const fetchWeather = async () => {
-      const API_URL = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=1&aqi=yes&alerts=yes`;
+      const API_URL = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=5&aqi=yes&alerts=yes`;
       try {
         const response = await fetch(API_URL);
         if (!response.ok) {
@@ -70,26 +95,41 @@ function App() {
   return (
     <div className="App">
       <div>
+        today
+        <p>Local Time: {weather.localTime}</p>
         <p>Temperature: {weather.temp}°C</p>
         <p>Wind Speed: {weather.windSpeed} kph</p>
         <p>Humidity: {weather.humidity}%</p>
         <p>UV Index: {weather.uv}</p>
-        <p>Temperature Range (Day 2): {weather.tempRange}</p>
+        <p>Temperature Range: {weather.tempRange}</p>
+        <p>PM25: {weather.pm25}</p>
       </div>
 
       <div style={{ display: 'flex' }}>
         <div>
           <div>
-            <WeatherDetails city={city} temp={weather.temp} tempRange={weather.tempRange} />
+            <WeatherDetails
+              city={city}
+              localTime={weather.localTime}
+              temp={weather.temp}
+              tempRange={weather.tempRange}
+            />
           </div>
           <div>
-            <WeatherInfo />
+            <WeatherInfos
+              windSpeed={weather.windSpeed}
+              humidity={weather.humidity}
+              uv={weather.uv}
+              pm25={weather.pm25}
+            />
           </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div>
-            <WeatherForecast />
+            {weather.fourDaysForecast.map((dayForecast) => (
+              <WeatherForecast date={dayForecast.date} day={dayForecast.day} tempRange={dayForecast.tempRange} />
+            ))}
           </div>
           <div>
             <SearchBar
@@ -108,3 +148,57 @@ function App() {
 }
 
 export default App;
+
+// {
+//   "location": {
+//       "localtime": "2024-09-26 22:52"
+//   },
+//   "current": {
+//         "temp_c": 14.4,
+//         "wind_kph": 34.6,
+//         "humidity": 77,
+//         "uv": 1.0,
+//         "air_quality": {
+//             "pm2_5": 15.355,
+//         }
+//   },
+//   "forecast": {
+//         "forecastday": [
+//           {
+//             "date": "2024-09-26",
+//             "day": {
+//                 "maxtemp_c": 17.9,
+//                 "mintemp_c": 15.3,
+//               }
+//         },
+//             {
+//                 "date": "2024-09-27",
+//                 "day": {
+//                     "maxtemp_c": 13.9,
+//                     "mintemp_c": 12.3,
+//                   }
+//             },
+//             {
+//               "date": "2024-09-28",
+//               "day": {
+//                   "maxtemp_c": 15.3,
+//                   "mintemp_c": 13.8,
+//               }
+//             },
+//             {
+//               "date": "2024-09-29",
+//               "day": {
+//                   "maxtemp_c": 17.2,
+//                   "mintemp_c": 14.3,
+//               }
+//             },
+//             {
+//               "date": "2024-09-30",
+//               "day": {
+//                   "maxtemp_c": 12.3,
+//                   "mintemp_c": 10.8,
+//               }
+//             },
+//         ]
+//   }
+// }
