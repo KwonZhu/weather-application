@@ -43,33 +43,32 @@ function App() {
       },
       forecast: { forecastday },
     } = data;
+    // Extracting date, maxtemp_c and mintemp_c from today (forecastday[0])
     const {
       date: todayDate,
       day: { maxtemp_c, mintemp_c },
     } = forecastday[0];
 
-    const today = {
-      localTime,
-      day: getDayFromDate(todayDate),
-      temp,
-      tempRange: `${mintemp_c}°C - ${maxtemp_c}°C`,
-      windSpeed,
-      humidity,
-      uv,
-      pm25,
-    };
     // transforms subarray(from index 1 to 4) data (date, day, tempRange) for each forecasted day
-    // fourDaysForecast[{date:"...", day:"...", tempRange:"..."}, {date, day, tempRange},...]
+    // fourDaysForecast[{date:"...", day:"...", tempRange:"..."}, {...}, ...]
     const fourDaysForecast = forecastday.slice(1, 5).map(({ date, day }) => ({
       date,
-      day: getDayFromDate(date),
+      dayOfWeek: getDayFromDate(date), //preserve day object (which contains mintemp_c, maxtemp_c), store the day of the week in dayOfWeek separately
       tempRange: `${day.mintemp_c}°C - ${day.maxtemp_c}°C`,
     }));
-    setWeather((prevWeather) => ({
-      ...prevWeather,
-      today,
+    setWeather({
+      today: {
+        localTime,
+        day: getDayFromDate(todayDate),
+        temp,
+        tempRange: `${mintemp_c}°C - ${maxtemp_c}°C`,
+        windSpeed,
+        humidity,
+        uv,
+        pm25,
+      },
       fourDaysForecast,
-    }));
+    });
   };
 
   const handleSetInputValueChange = (event) => {
