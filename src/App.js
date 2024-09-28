@@ -50,7 +50,7 @@ function App() {
     } = forecastday[0];
 
     // transforms subarray(from index 1 to 4) data (date, day, tempRange) for each forecasted day
-    // fourDaysForecast[{date:"...", day:"...", tempRange:"..."}, {...}, ...]
+    // fourDaysForecast[{date:"...", dayOfWeek:"...", tempRange:"..."}, {...}, ...]
     const fourDaysForecast = forecastday.slice(1, 5).map(({ date, day }) => ({
       date,
       dayOfWeek: getDayFromDate(date), //preserve day object (which contains mintemp_c, maxtemp_c), store the day of the week in dayOfWeek separately
@@ -75,7 +75,7 @@ function App() {
     setInputValue(event.target.value);
   };
 
-  // search button triggers useEffect to do new API call
+  // // Update city with inputValue when search button is clicked
   const handleSetCityChange = () => {
     if (inputValue) {
       setCity(inputValue);
@@ -137,7 +137,11 @@ function App() {
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div>
             {weather.fourDaysForecast.map((dayForecast) => (
-              <WeatherForecast date={dayForecast.date} day={dayForecast.day} tempRange={dayForecast.tempRange} />
+              <WeatherForecast
+                date={dayForecast.date}
+                dayOfWeek={dayForecast.dayOfWeek}
+                tempRange={dayForecast.tempRange}
+              />
             ))}
           </div>
           <div>
