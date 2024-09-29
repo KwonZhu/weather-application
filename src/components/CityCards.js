@@ -3,25 +3,6 @@ import React, { useState, useEffect } from 'react';
 const API_KEY = '00aa3e4aa3f4496da4194153242209';
 const citiesNames = ['London', 'Shanghai', 'New York', 'Melbourne'];
 
-// const cities = [
-//   {
-//     name: 'Sydney',
-//     temp: '22',
-//   },
-//   {
-//     name: 'Shanghai',
-//     temp: '22',
-//   },
-//   {
-//     name: 'New York',
-//     temp: '22',
-//   },
-//   {
-//     name: 'London',
-//     temp: '22',
-//   },
-// ];
-
 function CityCards() {
   const [citiesWeather, setCitiesWeather] = useState([]);
 
@@ -60,17 +41,10 @@ function CityCards() {
 
   return (
     <div style={{ display: 'flex' }}>
-      {/* {cities.map((city) => (
+      {citiesWeather.map((cityWeather) => (
         <div style={{ margin: '10px' }}>
-          <div>{city.name}</div>
-          <div>{city.temp}</div>
-        </div>
-      ))} */}
-
-      {citiesWeather.map((city) => (
-        <div style={{ margin: '10px' }}>
-          <div>{city.city}</div>
-          <div>{city.tempRange}</div>
+          <div>{cityWeather.city}</div>
+          <div>{cityWeather.tempRange}</div>
         </div>
       ))}
     </div>
