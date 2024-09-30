@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 const API_KEY = '00aa3e4aa3f4496da4194153242209';
 const citiesNames = ['London', 'Shanghai', 'New York', 'Melbourne'];
 
-function CityCards({ handleSetInputValueChange, handleSetCityChange }) {
+function CityCards({ handleSetCityChange }) {
   const [citiesWeather, setCitiesWeather] = useState([]);
 
   const handleCitiesWeatherChange = (data, city) => {
@@ -49,13 +49,8 @@ function CityCards({ handleSetInputValueChange, handleSetCityChange }) {
   return (
     <div style={{ display: 'flex' }}>
       {citiesWeather.map((cityWeather) => (
-        <div
-          style={{ margin: '10px', cursor: 'pointer' }}
-          onClick={() => {
-            handleSetInputValueChange({ target: { value: cityWeather.city } });
-            handleSetCityChange(cityWeather.city);
-          }}
-        >
+        // Make cards clickable
+        <div style={{ margin: '10px', cursor: 'pointer' }} onClick={() => handleSetCityChange(cityWeather.city)}>
           <div>{cityWeather.city}</div>
           <div>{cityWeather.tempRange}</div>
         </div>

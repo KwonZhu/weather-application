@@ -75,9 +75,13 @@ function App() {
     setInputValue(event.target.value);
   };
 
-  // // Update city with inputValue when search button is clicked
-  const handleSetCityChange = () => {
-    if (inputValue) {
+  // When click event occurs in SearchBar, selectedCity set as default value null
+  const handleSetCityChange = (selectedCity = null) => {
+    if (selectedCity) {
+      // Update city from CityCards when one of the CityCards is clicked
+      setCity(selectedCity);
+    } else if (inputValue) {
+      // Update city from SearchBar when Search button been is clicked
       setCity(inputValue);
     }
   };
@@ -152,10 +156,7 @@ function App() {
             />
           </div>
           <div>
-            <CityCards
-              handleSetInputValueChange={handleSetInputValueChange}
-              handleSetCityChange={handleSetCityChange}
-            />
+            <CityCards handleSetCityChange={handleSetCityChange} />
           </div>
         </div>
       </div>
