@@ -152,7 +152,10 @@ function App() {
             />
           </div>
           <div>
-            <CityCards />
+            <CityCards
+              handleSetInputValueChange={handleSetInputValueChange}
+              handleSetCityChange={handleSetCityChange}
+            />
           </div>
         </div>
       </div>
