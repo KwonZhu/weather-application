@@ -4,9 +4,34 @@ import CityCards from './components/CityCards';
 import WeatherDetails from './components/WeatherDetails';
 import WeatherInfos from './components/WeatherInfos';
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Flex from './utilities/Flex';
+
+const Container = styled.div`
+  background: url('../images/bg.png') no-repeat center center fixed;
+  background-size: cover;
+`;
+
+const RightFlex = styled(Flex)`
+  flex-direction: column;
+`;
 
 const API_KEY = '00aa3e4aa3f4496da4194153242209';
 const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+// const city = 'Melbourne'
+// const weather = {
+//   today: {
+//     localTime: '2024-10-01 23:31',
+//     day: 'Tuesday',
+//     temp: '9.1',
+//     tempRange: '9.1°C - 15.7°C',
+//     windSpeed: '7.6 kph',
+//     humidity: '93%',
+//     uv: '1',
+//     pm25: '7.585',
+//   },
+//   fourDaysForecast: [{date:"2024-10-02", dayOfWeek:"Wednesday", tempRange:"6.9°C - 17.1°C"},{date:"2024-10-03", dayOfWeek:"Thursday", tempRange:"8.5°C - 23.9°C"},{date:"2024-10-04", dayOfWeek:"Friday", tempRange:"13.6°C - 21.2°C"},{date:"2024-10-05", dayOfWeek:"Saturday", tempRange:"10.9°C - 19.9°C"}],
+// };
 
 function App() {
   const [weather, setWeather] = useState({
@@ -22,7 +47,7 @@ function App() {
     },
     fourDaysForecast: [],
   });
-  const [city, setCity] = useState('Sydney');
+  const [city, setCity] = useState('Melbourne');
   const [inputValue, setInputValue] = useState('');
 
   const getDayFromDate = (dateString) => {
@@ -60,7 +85,7 @@ function App() {
       today: {
         localTime,
         day: getDayFromDate(todayDate),
-        temp,
+        temp: `${temp}°C`,
         tempRange: `${mintemp_c}°C - ${maxtemp_c}°C`,
         windSpeed,
         humidity,
@@ -104,7 +129,7 @@ function App() {
   }, [city]); //fetch weather on initial render and when city changes
 
   return (
-    <div className="App">
+    <Container>
       <div>
         today
         <p>Local Time: {weather.today.localTime}</p>
@@ -117,7 +142,7 @@ function App() {
         <p>PM25: {weather.today.pm25}</p>
       </div>
 
-      <div style={{ display: 'flex' }}>
+      <Flex>
         <div>
           <div>
             <WeatherDetails
@@ -137,8 +162,7 @@ function App() {
             />
           </div>
         </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <RightFlex>
           <div>
             {weather.fourDaysForecast.map((dayForecast) => (
               <WeatherForecast
@@ -158,9 +182,9 @@ function App() {
           <div>
             <CityCards handleSetCityChange={handleSetCityChange} />
           </div>
-        </div>
-      </div>
-    </div>
+        </RightFlex>
+      </Flex>
+    </Container>
   );
 }
 

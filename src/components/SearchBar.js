@@ -1,5 +1,16 @@
 import React from 'react';
 
+// function SearchBar() {
+//   return (
+//     <div>
+//       <input type="text" placeholder="Search City" value='' />
+
+//       <button >Search</button>
+//     </div>
+//   );
+// }
+// export default SearchBar;
+
 function SearchBar({ inputValue, handleSetInputValueChange, handleSetCityChange }) {
   return (
     <div>

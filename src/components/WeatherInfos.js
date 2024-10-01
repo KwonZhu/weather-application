@@ -1,15 +1,9 @@
 import React from 'react';
-
-// const infos = {
-//   windSpeed: '10km/h',
-//   temp: '22',
-//   humidity: '50%',
-//   pm25: '20',
-// };
+import Flex from '../utilities/Flex';
 
 function WeatherInfos({ windSpeed, humidity, uv, pm25 }) {
   return (
-    <div style={{ display: 'flex' }}>
+    <Flex>
       {/* {Object.entries(infos).map(([key, value]) => (
         <div>{value}</div>
       ))} */}
@@ -18,7 +12,7 @@ function WeatherInfos({ windSpeed, humidity, uv, pm25 }) {
       <div>{humidity}</div>
       <div>{uv}</div>
       <div>{pm25}</div>
-    </div>
+    </Flex>
   );
 }
 export default WeatherInfos;

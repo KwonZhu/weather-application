@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import Flex from '../utilities/Flex';
 
 const API_KEY = '00aa3e4aa3f4496da4194153242209';
-const citiesNames = ['London', 'Shanghai', 'New York', 'Melbourne'];
+const citiesNames = ['London', 'Shanghai', 'New York', 'Sydney'];
+// const citiesWeather = [{city:'London',tempRange :'11.5°C - 13.4°C'},{city:'Shanghai',tempRange :'11.5°C - 13.4°C'},{city:'New York',tempRange :'11.5°C - 13.4°C'},{city:'Sydney',tempRange :'11.5°C - 13.4°C'}]
 
 function CityCards({ handleSetCityChange }) {
   const [citiesWeather, setCitiesWeather] = useState([]);
@@ -47,7 +49,7 @@ function CityCards({ handleSetCityChange }) {
   }, []);
 
   return (
-    <div style={{ display: 'flex' }}>
+    <Flex>
       {citiesWeather.map((cityWeather) => (
         // Make cards clickable
         <div style={{ margin: '10px', cursor: 'pointer' }} onClick={() => handleSetCityChange(cityWeather.city)}>
@@ -55,7 +57,7 @@ function CityCards({ handleSetCityChange }) {
           <div>{cityWeather.tempRange}</div>
         </div>
       ))}
-    </div>
+    </Flex>
   );
 }
 export default CityCards;

@@ -6,7 +6,7 @@ function WeatherDetails({ city, localTime, day, temp, tempRange }) {
       <div>{localTime}</div>
       <div>{city}</div>
       <div>{day}</div>
-      <div>{temp}°C</div>
+      <div>{temp}</div>
       <div>{tempRange}</div>
     </div>
   );

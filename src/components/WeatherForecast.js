@@ -1,43 +1,13 @@
 import React from 'react';
+import Flex from '../utilities/Flex';
 
-// const futureWeather = [
-//   {
-//     week: 'Sunday',
-//     date: '22 September',
-//     temp: '22',
-//   },
-//   {
-//     week: 'Monday',
-//     date: '23 September',
-//     temp: '22',
-//   },
-//   {
-//     week: 'Tuesday',
-//     date: '24 September',
-//     temp: '22',
-//   },
-//   {
-//     week: 'Wednesday',
-//     date: '25 September',
-//     temp: '22',
-//   },
-// ];
-
-function WeatherForecast({ date, day, tempRange }) {
+function WeatherForecast({ date, dayOfWeek, tempRange }) {
   return (
-    <div style={{ display: 'flex' }}>
-      {/* {futureWeather.map((weather) => (
-        <div style={{ margin: '10px' }}>
-          <h3>{weather.week}</h3>
-          <p>{weather.data}</p>
-          <p>{weather.temp}</p>
-        </div>
-      ))} */}
-
+    <Flex>
       <div>{date}</div>
-      <div>{day}</div>
+      <div>{dayOfWeek}</div>
       <div>{tempRange}</div>
-    </div>
+    </Flex>
   );
 }
 export default WeatherForecast;
