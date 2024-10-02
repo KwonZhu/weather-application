@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 function WeatherDetails({ city, localTime, day, temp, tempRange }) {
   return (

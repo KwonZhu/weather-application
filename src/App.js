@@ -6,14 +6,38 @@ import WeatherInfos from './components/WeatherInfos';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Flex from './utilities/Flex';
+import bgImage from './images/bg.png';
 
 const Container = styled.div`
-  background: url('../images/bg.png') no-repeat center center fixed;
+  height: 100vh;
+  background: url(${bgImage}) no-repeat center center fixed;
   background-size: cover;
 `;
 
-const RightFlex = styled(Flex)`
+const Wrapper = styled(Flex)`
+  width: 70%;
+  align-items: center;
+  justify-content: center;
+  column-gap: 4rem;
+  border-radius: 2rem;
+  background-color: rgb(243, 243, 243);
+  padding: 1.5rem;
+`;
+
+const Left = styled(Flex)`
+  position: relative;
   flex-direction: column;
+  width: 300px;
+  border-radius: 2rem;
+  padding: 1rem;
+  background: linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219));
+`;
+
+const Right = styled(Flex)`
+  flex-direction: column;
+  // flex-grow: 1;
+  // flex-shrink: 1;
+  // flex-basis: 0%;
 `;
 
 // const API_KEY = '00aa3e4aa3f4496da4194153242209';
@@ -25,6 +49,7 @@ const weather = {
     day: 'Tuesday',
     temp: '9.1',
     tempRange: '9.1°C - 15.7°C',
+    condition: 'Moderate rain',
     windSpeed: '7.6 kph',
     humidity: '93%',
     uv: '1',
@@ -45,6 +70,7 @@ function App() {
   //     day: '',
   //     temp: '',
   //     tempRange: '',
+  //     condition: '',
   //     windSpeed: '',
   //     humidity: '',
   //     uv: '',
@@ -66,6 +92,7 @@ function App() {
   //     location: { localtime: localTime },
   //     current: {
   //       temp_c: temp,
+  //       condition: { text: condition }
   //       wind_kph: windSpeed,
   //       humidity,
   //       uv,
@@ -92,6 +119,7 @@ function App() {
   //       day: getDayFromDate(todayDate),
   //       temp: `${temp}°C`,
   //       tempRange: `${mintemp_c}°C - ${maxtemp_c}°C`,
+  //       condition,
   //       windSpeed,
   //       humidity,
   //       uv,
@@ -135,20 +163,21 @@ function App() {
 
   return (
     <Container>
-      <div>
+      {/* <div>
         today
         <p>Local Time: {weather.today.localTime}</p>
         <p>Day: {weather.today.day}</p>
         <p>Temperature: {weather.today.temp}°C</p>
+        <p>Condition: {weather.today.condition}</p>
         <p>Wind Speed: {weather.today.windSpeed} kph</p>
         <p>Humidity: {weather.today.humidity}%</p>
         <p>UV Index: {weather.today.uv}</p>
         <p>Temperature Range: {weather.today.tempRange}</p>
         <p>PM25: {weather.today.pm25}</p>
-      </div>
+      </div> */}
 
-      <Flex>
-        <div>
+      <Wrapper>
+        <Left>
           <div>
             <WeatherDetails
               city={city}
@@ -166,8 +195,8 @@ function App() {
               pm25={weather.today.pm25}
             />
           </div>
-        </div>
-        <RightFlex>
+        </Left>
+        <Right>
           <div>
             {weather.fourDaysForecast.map((dayForecast) => (
               <WeatherForecast
@@ -193,8 +222,8 @@ function App() {
           <div>
             <CityCards handleSetCityChange={handleSetCityChange} />
           </div> */}
-        </RightFlex>
-      </Flex>
+        </Right>
+      </Wrapper>
     </Container>
   );
 }
