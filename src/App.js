@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Flex from './utilities/Flex';
 import bgImage from './images/bg.png';
+import BackgroundImagesMap from './constants/BackgroundImagesMap';
 
 const Container = styled.div`
   height: 100vh;
@@ -28,9 +29,12 @@ const Left = styled(Flex)`
   position: relative;
   flex-direction: column;
   width: 300px;
+  height: 400px;
   border-radius: 2rem;
   padding: 1rem;
-  background: linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219));
+  background: ${(props) => `linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219)), url(${props.$url})`};
+  background-size: cover;
+  background-position: center;
 `;
 
 const Right = styled(Flex)`
@@ -163,6 +167,7 @@ function App() {
 
   return (
     <Container>
+      <img src="./images/Rain_background.png" alt="sunny" />
       {/* <div>
         today
         <p>Local Time: {weather.today.localTime}</p>
@@ -177,7 +182,8 @@ function App() {
       </div> */}
 
       <Wrapper>
-        <Left>
+        {/* avoid passing the url prop directly to the DOM by using transient props */}
+        <Left $url={BackgroundImagesMap(weather.today.condition)}>
           <div>
             <WeatherDetails
               city={city}
@@ -213,15 +219,15 @@ function App() {
             <CityCards />
           </div>
           {/* <div>
-            <SearchBar
-              inputValue={inputValue}
-              handleSetInputValueChange={handleSetInputValueChange}
-              handleSetCityChange={handleSetCityChange}
-            />
-          </div>
-          <div>
-            <CityCards handleSetCityChange={handleSetCityChange} />
-          </div> */}
+              <SearchBar
+                inputValue={inputValue}
+                handleSetInputValueChange={handleSetInputValueChange}
+                handleSetCityChange={handleSetCityChange}
+              />
+            </div>
+            <div>
+              <CityCards handleSetCityChange={handleSetCityChange} />
+            </div> */}
         </Right>
       </Wrapper>
     </Container>
