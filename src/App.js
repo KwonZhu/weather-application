@@ -6,12 +6,11 @@ import WeatherInfos from './components/WeatherInfos';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Flex from './utilities/Flex';
-import bgImage from './images/bg.png';
 import BackgroundImagesMap from './constants/BackgroundImagesMap';
 
 const Container = styled.div`
   height: 100vh;
-  background: url(${bgImage}) no-repeat center center fixed;
+  background: url('/images/bg.png') no-repeat center center fixed;
   background-size: cover;
 `;
 
@@ -32,7 +31,8 @@ const Left = styled(Flex)`
   height: 400px;
   border-radius: 2rem;
   padding: 1rem;
-  background: ${(props) => `linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219)), url(${props.$url})`};
+  // background: ${(props) => `linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219)), url(${props.$url})`};
+  background: linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219));
   background-size: cover;
   background-position: center;
 `;
@@ -167,7 +167,6 @@ function App() {
 
   return (
     <Container>
-      <img src="./images/Rain_background.png" alt="sunny" />
       {/* <div>
         today
         <p>Local Time: {weather.today.localTime}</p>
@@ -183,7 +182,18 @@ function App() {
 
       <Wrapper>
         {/* avoid passing the url prop directly to the DOM by using transient props */}
-        <Left $url={BackgroundImagesMap(weather.today.condition)}>
+        {/* <Left $url={BackgroundImagesMap(weather.today.condition)}> */}
+        <Left>
+          <img
+            src={BackgroundImagesMap(weather.today.condition)}
+            alt="Weather background"
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              width: '18rem',
+            }}
+          />
           <div>
             <WeatherDetails
               city={city}
