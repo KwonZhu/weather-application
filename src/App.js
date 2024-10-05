@@ -56,7 +56,7 @@ const weather = {
     condition: 'Moderate rain',
     windSpeed: '7.6 kph',
     humidity: '93%',
-    uv: '1',
+    somatosensoryTemp: '8.4°C',
     pm25: '7.585',
   },
   fourDaysForecast: [
@@ -77,7 +77,7 @@ function App() {
   //     condition: '',
   //     windSpeed: '',
   //     humidity: '',
-  //     uv: '',
+  //     somatosensoryTemp: '',
   //     pm25: '',
   //   },
   //   fourDaysForecast: [],
@@ -99,7 +99,7 @@ function App() {
   //       condition: { text: condition }
   //       wind_kph: windSpeed,
   //       humidity,
-  //       uv,
+  //       feelslike_c: somatosensoryTemp,
   //       air_quality: { pm2_5: pm25 },
   //     },
   //     forecast: { forecastday },
@@ -126,7 +126,7 @@ function App() {
   //       condition,
   //       windSpeed,
   //       humidity,
-  //       uv,
+  //       somatosensoryTemp: `${somatosensoryTemp}°C`,
   //       pm25,
   //     },
   //     fourDaysForecast,
@@ -175,7 +175,7 @@ function App() {
         <p>Condition: {weather.today.condition}</p>
         <p>Wind Speed: {weather.today.windSpeed} kph</p>
         <p>Humidity: {weather.today.humidity}%</p>
-        <p>UV Index: {weather.today.uv}</p>
+        <p>somatosensory Temperature: {weather.today.somatosensoryTemp}</p>
         <p>Temperature Range: {weather.today.tempRange}</p>
         <p>PM25: {weather.today.pm25}</p>
       </div> */}
@@ -207,7 +207,7 @@ function App() {
             <WeatherInfos
               windSpeed={weather.today.windSpeed}
               humidity={weather.today.humidity}
-              uv={weather.today.uv}
+              somatosensoryTemp={weather.today.somatosensoryTemp}
               pm25={weather.today.pm25}
             />
           </div>
@@ -254,7 +254,7 @@ export default App;
 //         "temp_c": 14.4,
 //         "wind_kph": 34.6,
 //         "humidity": 77,
-//         "uv": 1.0,
+//         "somatosensoryTemp": 8.4,
 //         "air_quality": {
 //             "pm2_5": 15.355,
 //         }
