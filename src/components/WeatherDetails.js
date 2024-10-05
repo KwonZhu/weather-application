@@ -1,18 +1,32 @@
 import React from 'react';
 import Flex from '../utilities/Flex';
+import styled from 'styled-components';
 
-function WeatherInfos({ windSpeed, humidity, somatosensoryTemp, pm25 }) {
+const Wrapper = styled(Flex)`
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 1rem;
+  background: white;
+  padding: 1.5rem;
+`;
+
+const Detail = styled(Flex)`
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.5rem;
+  font-size: 0.9rem;
+`;
+
+function WeatherDetails({ details }) {
   return (
-    <Flex>
-      {/* {Object.entries(infos).map(([key, value]) => (
-        <div>{value}</div>
-      ))} */}
-
-      <div>{windSpeed}</div>
-      <div>{humidity}</div>
-      <div>{somatosensoryTemp}</div>
-      <div>{pm25}</div>
-    </Flex>
+    <Wrapper>
+      {Object.entries(details).map(([key, value]) => (
+        <Detail key={key}>
+          <img src={`/${key}.svg`} alt={key} />
+          {value}
+        </Detail>
+      ))}
+    </Wrapper>
   );
 }
-export default WeatherInfos;
+export default WeatherDetails;

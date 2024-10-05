@@ -54,10 +54,12 @@ const weather = {
     temp: '9.1',
     tempRange: '9.1°C - 15.7°C',
     condition: 'Moderate rain',
-    windSpeed: '7.6 kph',
-    humidity: '93%',
-    somatosensoryTemp: '8.4°C',
-    pm25: '7.585',
+    details: {
+      windSpeed: '7.6 kph',
+      humidity: '93%',
+      somatosensoryTemp: '8.4°C',
+      pm25: '7.585',
+    },
   },
   fourDaysForecast: [
     { date: '2024-10-02', dayOfWeek: 'Wednesday', tempRange: '6.9°C - 17.1°C' },
@@ -75,10 +77,12 @@ function App() {
   //     temp: '',
   //     tempRange: '',
   //     condition: '',
-  //     windSpeed: '',
-  //     humidity: '',
-  //     somatosensoryTemp: '',
-  //     pm25: '',
+  //     details: {
+  //      windSpeed: '',
+  //      humidity: '',
+  //      somatosensoryTemp: '',
+  //      pm25: '',
+  //     }
   //   },
   //   fourDaysForecast: [],
   // });
@@ -124,10 +128,12 @@ function App() {
   //       temp: `${temp}°C`,
   //       tempRange: `${mintemp_c}°C - ${maxtemp_c}°C`,
   //       condition,
-  //       windSpeed,
-  //       humidity,
-  //       somatosensoryTemp: `${somatosensoryTemp}°C`,
-  //       pm25,
+  //       details: {
+  //         windSpeed,
+  //         humidity,
+  //         somatosensoryTemp: `${somatosensoryTemp}°C`,
+  //         pm25,
+  //       },
   //     },
   //     fourDaysForecast,
   //   });
@@ -172,12 +178,12 @@ function App() {
         <p>Local Time: {weather.today.localTime}</p>
         <p>Day: {weather.today.day}</p>
         <p>Temperature: {weather.today.temp}°C</p>
-        <p>Condition: {weather.today.condition}</p>
-        <p>Wind Speed: {weather.today.windSpeed} kph</p>
-        <p>Humidity: {weather.today.humidity}%</p>
-        <p>somatosensory Temperature: {weather.today.somatosensoryTemp}</p>
         <p>Temperature Range: {weather.today.tempRange}</p>
-        <p>PM25: {weather.today.pm25}</p>
+        <p>Condition: {weather.today.condition}</p>
+        <p>Wind Speed: {weather.today.details.windSpeed} kph</p>
+        <p>Humidity: {weather.today.details.humidity}%</p>
+        <p>somatosensory Temperature: {weather.today.details.somatosensoryTemp}</p>
+        <p>PM25: {weather.today.details.pm25}</p>
       </div> */}
 
       <Wrapper>
@@ -195,7 +201,7 @@ function App() {
             }}
           />
           <div>
-            <WeatherDetails
+            <WeatherInfos
               city={city}
               localTime={weather.today.localTime}
               day={weather.today.day}
@@ -204,12 +210,7 @@ function App() {
             />
           </div>
           <div>
-            <WeatherInfos
-              windSpeed={weather.today.windSpeed}
-              humidity={weather.today.humidity}
-              somatosensoryTemp={weather.today.somatosensoryTemp}
-              pm25={weather.today.pm25}
-            />
+            <WeatherDetails details={weather.today.details} />
           </div>
         </Left>
         <Right>

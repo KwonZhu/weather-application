@@ -1,7 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 
-function WeatherDetails({ city, localTime, day, temp, tempRange }) {
+function WeatherInfos({ city, localTime, day, temp, tempRange }) {
   return (
     <div>
       <div>{localTime}</div>
@@ -13,4 +12,4 @@ function WeatherDetails({ city, localTime, day, temp, tempRange }) {
   );
 }
 
-export default WeatherDetails;
+export default WeatherInfos;
