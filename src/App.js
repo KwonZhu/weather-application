@@ -49,15 +49,14 @@ const Right = styled(Flex)`
 const city = 'Melbourne';
 const weather = {
   today: {
-    localTime: '2024-10-01 23:31',
-    day: 'Tuesday',
-    temp: '9.1',
-    tempRange: '9.1°C - 15.7°C',
+    realTime: '01 October, Tuesday 23:31',
+    temp: '9.1°',
+    tempRange: '9.1 ~ 15.7°',
     condition: 'Moderate rain',
     details: {
       windSpeed: '7.6 kph',
       humidity: '93%',
-      somatosensoryTemp: '8.4°C',
+      somatosensoryTemp: '8.4°',
       pm25: '7.585',
     },
   },
@@ -72,17 +71,16 @@ const weather = {
 function App() {
   // const [weather, setWeather] = useState({
   //   today: {
-  //     localTime: '',
-  //     day: '',
+  //     realTime: '',
   //     temp: '',
   //     tempRange: '',
   //     condition: '',
   //     details: {
-  //      windSpeed: '',
-  //      humidity: '',
-  //      somatosensoryTemp: '',
-  //      pm25: '',
-  //     }
+  //       windSpeed: '',
+  //       humidity: '',
+  //       somatosensoryTemp: '',
+  //       pm25: '',
+  //     },
   //   },
   //   fourDaysForecast: [],
   // });
@@ -94,13 +92,21 @@ function App() {
   //   return weekday[date.getDay()]; //getDay() return 0 - 6
   // };
 
+  // function formatRealTime(localTime, dayOfToday) {
+  //   const date = new Date(localTime);
+  //   const options = { day: '2-digit', month: 'long' };
+  //   const formattedDate = date.toLocaleDateString('en-US', options);
+  //   const time = localTime.split(' ')[1]; // Extract time from 'YYYY-MM-DD HH:MM'
+  //   return `${formattedDate}, ${dayOfToday} ${time}`;
+  // }
+
   // const handleWeatherChange = (data) => {
   //   // Destructuring the weather API data
   //   const {
   //     location: { localtime: localTime },
   //     current: {
   //       temp_c: temp,
-  //       condition: { text: condition }
+  //       condition: { text: condition },
   //       wind_kph: windSpeed,
   //       humidity,
   //       feelslike_c: somatosensoryTemp,
@@ -114,6 +120,8 @@ function App() {
   //     day: { maxtemp_c, mintemp_c },
   //   } = forecastday[0];
 
+  //   const realTime = formatRealTime(localTime, getDayFromDate(todayDate));
+
   //   // transforms subarray(from index 1 to 4) data (date, day, tempRange) for each forecasted day
   //   // fourDaysForecast[{date:"...", dayOfWeek:"...", tempRange:"..."}, {...}, ...]
   //   const fourDaysForecast = forecastday.slice(1, 5).map(({ date, day }) => ({
@@ -123,15 +131,14 @@ function App() {
   //   }));
   //   setWeather({
   //     today: {
-  //       localTime,
-  //       day: getDayFromDate(todayDate),
-  //       temp: `${temp}°C`,
-  //       tempRange: `${mintemp_c}°C - ${maxtemp_c}°C`,
+  //       realTime,
+  //       temp: `${temp}°`,
+  //       tempRange: `${mintemp_c} ~ ${maxtemp_c}°C`,
   //       condition,
   //       details: {
   //         windSpeed,
   //         humidity,
-  //         somatosensoryTemp: `${somatosensoryTemp}°C`,
+  //         somatosensoryTemp: `${somatosensoryTemp}°`,
   //         pm25,
   //       },
   //     },
@@ -174,9 +181,7 @@ function App() {
   return (
     <Container>
       {/* <div>
-        today
-        <p>Local Time: {weather.today.localTime}</p>
-        <p>Day: {weather.today.day}</p>
+        <p>Real Time: {weather.today.realTime}</p>
         <p>Temperature: {weather.today.temp}°C</p>
         <p>Temperature Range: {weather.today.tempRange}</p>
         <p>Condition: {weather.today.condition}</p>
@@ -197,14 +202,15 @@ function App() {
               position: 'absolute',
               right: 0,
               top: 0,
-              width: '18rem',
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
             }}
           />
           <div>
             <WeatherInfos
+              realTime={weather.today.realTime}
               city={city}
-              localTime={weather.today.localTime}
-              day={weather.today.day}
               temp={weather.today.temp}
               tempRange={weather.today.tempRange}
             />

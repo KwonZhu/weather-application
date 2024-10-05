@@ -22,7 +22,7 @@ function WeatherDetails({ details }) {
     <Wrapper>
       {Object.entries(details).map(([key, value]) => (
         <Detail key={key}>
-          <img src={`/${key}.svg`} alt={key} />
+          <img src={`/images/${key}.svg`} alt={key} />
           {value}
         </Detail>
       ))}
