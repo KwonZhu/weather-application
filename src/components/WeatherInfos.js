@@ -1,18 +1,16 @@
 import React from 'react';
-import Flex from '../utilities/Flex';
+import styled from 'styled-components';
 
-function WeatherInfos({ windSpeed, humidity, somatosensoryTemp, pm25 }) {
+function WeatherDetails({ city, localTime, day, temp, tempRange }) {
   return (
-    <Flex>
-      {/* {Object.entries(infos).map(([key, value]) => (
-        <div>{value}</div>
-      ))} */}
-
-      <div>{windSpeed}</div>
-      <div>{humidity}</div>
-      <div>{somatosensoryTemp}</div>
-      <div>{pm25}</div>
-    </Flex>
+    <div>
+      <div>{localTime}</div>
+      <div>{city}</div>
+      <div>{day}</div>
+      <div>{temp}</div>
+      <div>{tempRange}</div>
+    </div>
   );
 }
-export default WeatherInfos;
+
+export default WeatherDetails;
