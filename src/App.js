@@ -8,14 +8,16 @@ import styled from 'styled-components';
 import Flex from './utilities/Flex';
 import BackgroundImagesMap from './constants/BackgroundImagesMap';
 
-const Container = styled.div`
+const Container = styled(Flex)`
   height: 100vh;
   background: url('/images/bg.png') no-repeat center center fixed;
   background-size: cover;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Wrapper = styled(Flex)`
-  width: 70%;
+  width: 80%;
   align-items: center;
   justify-content: center;
   column-gap: 4rem;
@@ -28,7 +30,6 @@ const Left = styled(Flex)`
   position: relative;
   flex-direction: column;
   width: 300px;
-  height: 400px;
   border-radius: 2rem;
   padding: 1rem;
   // background: ${(props) => `linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219)), url(${props.$url})`};
@@ -205,6 +206,7 @@ function App() {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
+              zIndex: '1',
             }}
           />
           <div>
@@ -213,6 +215,7 @@ function App() {
               city={city}
               temp={weather.today.temp}
               tempRange={weather.today.tempRange}
+              condition={weather.today.condition}
             />
           </div>
           <div>
@@ -306,3 +309,130 @@ export default App;
 //         ]
 //   }
 // }
+
+// import SearchBar from './components/SearchBar';
+// import WeatherForecast from './components/WeatherForecast';
+// import CityCards from './components/CityCards';
+// import WeatherDetails from './components/WeatherDetails';
+// import WeatherInfos from './components/WeatherInfos';
+// import { useState, useEffect } from 'react';
+// import styled from 'styled-components';
+// import Flex from './utilities/Flex';
+// import BackgroundImagesMap from './constants/BackgroundImagesMap';
+
+// const Container = styled.div`
+//   height: 100vh;
+//   background: url('/images/bg.png') no-repeat center center fixed;
+//   background-size: cover;
+// `;
+
+// const Wrapper = styled(Flex)`
+//   width: 70%;
+//   align-items: center;
+//   justify-content: center;
+//   column-gap: 4rem;
+//   border-radius: 2rem;
+//   background-color: rgb(243, 243, 243);
+//   padding: 1.5rem;
+// `;
+
+// const Left = styled(Flex)`
+//   position: relative;
+//   flex-direction: column;
+//   width: 300px;
+//   height: 400px;
+//   border-radius: 2rem;
+//   padding: 1rem;
+//   // background: ${(props) => `linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219)), url(${props.$url})`};
+//   background: linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219));
+//   background-size: cover;
+//   background-position: center;
+// `;
+
+// const Right = styled(Flex)`
+//   flex-direction: column;
+//   // flex-grow: 1;
+//   // flex-shrink: 1;
+//   // flex-basis: 0%;
+// `;
+
+// // const API_KEY = '00aa3e4aa3f4496da4194153242209';
+// // const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+// const city = 'Melbourne';
+// const weather = {
+//   today: {
+//     realTime: '01 October, Tuesday 23:31',
+//     temp: '9.1°',
+//     tempRange: '9.1 ~ 15.7°',
+//     condition: 'Moderate rain',
+//     details: {
+//       windSpeed: '7.6 kph',
+//       humidity: '93%',
+//       somatosensoryTemp: '8.4°',
+//       pm25: '7.585',
+//     },
+//   },
+//   fourDaysForecast: [
+//     { date: '2024-10-02', dayOfWeek: 'Wednesday', tempRange: '6.9°C - 17.1°C' },
+//     { date: '2024-10-03', dayOfWeek: 'Thursday', tempRange: '8.5°C - 23.9°C' },
+//     { date: '2024-10-04', dayOfWeek: 'Friday', tempRange: '13.6°C - 21.2°C' },
+//     { date: '2024-10-05', dayOfWeek: 'Saturday', tempRange: '10.9°C - 19.9°C' },
+//   ],
+// };
+
+// function App() {
+
+//   return (
+//     <Container>
+//       <Wrapper>
+//         {/* avoid passing the url prop directly to the DOM by using transient props */}
+//         {/* <Left $url={BackgroundImagesMap(weather.today.condition)}> */}
+//         <Left>
+//           <img
+//             src={BackgroundImagesMap(weather.today.condition)}
+//             alt="Weather background"
+//             style={{
+//               position: 'absolute',
+//               right: 0,
+//               top: 0,
+//               width: '100%',
+//               height: '100%',
+//               objectFit: 'cover',
+//             }}
+//           />
+//           <div>
+//             <WeatherInfos
+//               realTime={weather.today.realTime}
+//               city={city}
+//               temp={weather.today.temp}
+//               tempRange={weather.today.tempRange}
+//               condition={weather.today.condition}
+//             />
+//           </div>
+//           <div>
+//             <WeatherDetails details={weather.today.details} />
+//           </div>
+//         </Left>
+//         <Right>
+//           <div>
+//             {weather.fourDaysForecast.map((dayForecast) => (
+//               <WeatherForecast
+//                 date={dayForecast.date}
+//                 dayOfWeek={dayForecast.dayOfWeek}
+//                 tempRange={dayForecast.tempRange}
+//               />
+//             ))}
+//           </div>
+//           <div>
+//             <SearchBar />
+//           </div>
+//           <div>
+//             <CityCards />
+//           </div>
+//         </Right>
+//       </Wrapper>
+//     </Container>
+//   );
+// }
+
+// export default App;

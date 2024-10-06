@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Flex from '../utilities/Flex';
+import WeatherIconMap from '../constants/WeatherIconMap';
 
 const Wrapper = styled(Flex)`
   flex-direction: column;
@@ -23,13 +24,19 @@ const Temp = styled.div`
   font-weight: bold;
 `;
 
-function WeatherInfos({ realTime, city, temp, tempRange }) {
+const Img = styled.img`
+  max-width: 100%;
+  height: auto;
+`;
+
+function WeatherInfos({ realTime, city, temp, tempRange, condition }) {
   return (
     <Wrapper>
       <RealTime>{realTime}</RealTime>
       <City>{city}</City>
       <Temp>{temp}</Temp>
       <div>{tempRange}</div>
+      <Img src={WeatherIconMap(condition)} alt="Weather icon" />
     </Wrapper>
   );
 }
