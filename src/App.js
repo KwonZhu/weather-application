@@ -18,8 +18,6 @@ const Container = styled(Flex)`
 
 const Wrapper = styled(Flex)`
   width: 80%;
-  align-items: center;
-  justify-content: center;
   column-gap: 4rem;
   border-radius: 2rem;
   background-color: rgb(243, 243, 243);
@@ -29,20 +27,31 @@ const Wrapper = styled(Flex)`
 const Left = styled(Flex)`
   position: relative;
   flex-direction: column;
-  width: 300px;
+  width: 360px;
   border-radius: 2rem;
   padding: 1rem;
   // background: ${(props) => `linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219)), url(${props.$url})`};
   background: linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219));
   background-size: cover;
   background-position: center;
+  overflow: hidden;
+  & > div {
+    z-index: 2;
+  }
+`;
+
+const Img = styled.img`
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  object-fit: cover;
 `;
 
 const Right = styled(Flex)`
   flex-direction: column;
-  // flex-grow: 1;
-  // flex-shrink: 1;
-  // flex-basis: 0%;
+  flex: 1; //equals to flex-grow: 1; flex-shrink: 1; flex-basis: 0%;
 `;
 
 // const API_KEY = '00aa3e4aa3f4496da4194153242209';
@@ -53,7 +62,7 @@ const weather = {
     realTime: '01 October, Tuesday 23:31',
     temp: '9.1°',
     tempRange: '9.1 ~ 15.7°',
-    condition: 'Moderate rain',
+    condition: 'Sunny',
     details: {
       windSpeed: '7.6 kph',
       humidity: '93%',
@@ -196,19 +205,7 @@ function App() {
         {/* avoid passing the url prop directly to the DOM by using transient props */}
         {/* <Left $url={BackgroundImagesMap(weather.today.condition)}> */}
         <Left>
-          <img
-            src={BackgroundImagesMap(weather.today.condition)}
-            alt="Weather background"
-            style={{
-              position: 'absolute',
-              right: 0,
-              top: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              zIndex: '1',
-            }}
-          />
+          <Img src={BackgroundImagesMap(weather.today.condition)} alt="Weather background" />
           <div>
             <WeatherInfos
               realTime={weather.today.realTime}

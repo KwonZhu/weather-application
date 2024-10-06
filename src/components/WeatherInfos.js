@@ -7,12 +7,12 @@ const Wrapper = styled(Flex)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  row-gap: 1.5rem;
   color: white;
 `;
 
 const RealTime = styled.div`
   margin-right: auto;
+  margin-bottom: 0.5rem;
 `;
 
 const City = styled.div`
@@ -25,8 +25,7 @@ const Temp = styled.div`
 `;
 
 const Img = styled.img`
-  max-width: 100%;
-  height: auto;
+  width: 40%;
 `;
 
 function WeatherInfos({ realTime, city, temp, tempRange, condition }) {
