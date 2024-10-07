@@ -54,6 +54,14 @@ const Right = styled(Flex)`
   flex: 1; //equals to flex-grow: 1; flex-shrink: 1; flex-basis: 0%;
 `;
 
+const WeatherForecastContainer = styled(Flex)`
+  align-items: center;
+  justify-content: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  column-gap: 1rem;
+`;
+
 // const API_KEY = '00aa3e4aa3f4496da4194153242209';
 // const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const city = 'Melbourne';
@@ -71,10 +79,10 @@ const weather = {
     },
   },
   fourDaysForecast: [
-    { date: '2024-10-02', dayOfWeek: 'Wednesday', tempRange: '6.9°C - 17.1°C' },
-    { date: '2024-10-03', dayOfWeek: 'Thursday', tempRange: '8.5°C - 23.9°C' },
-    { date: '2024-10-04', dayOfWeek: 'Friday', tempRange: '13.6°C - 21.2°C' },
-    { date: '2024-10-05', dayOfWeek: 'Saturday', tempRange: '10.9°C - 19.9°C' },
+    { date: '2024-10-02', dayOfWeek: 'Wednesday', tempRange: '6.9 ~ 17.1°' },
+    { date: '2024-10-03', dayOfWeek: 'Thursday', tempRange: '8.5 ~ 23.9°' },
+    { date: '2024-10-04', dayOfWeek: 'Friday', tempRange: '13.6 ~ 21.2°' },
+    { date: '2024-10-05', dayOfWeek: 'Saturday', tempRange: '10.9 ~ 19.9°' },
   ],
 };
 
@@ -220,15 +228,16 @@ function App() {
           </div>
         </Left>
         <Right>
-          <div>
+          <WeatherForecastContainer>
             {weather.fourDaysForecast.map((dayForecast) => (
               <WeatherForecast
-                date={dayForecast.date}
                 dayOfWeek={dayForecast.dayOfWeek}
+                date={dayForecast.date}
+                condition={weather.today.condition}
                 tempRange={dayForecast.tempRange}
               />
             ))}
-          </div>
+          </WeatherForecastContainer>
           <div>
             <SearchBar />
           </div>

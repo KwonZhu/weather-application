@@ -4,10 +4,10 @@ import Flex from '../utilities/Flex';
 // const API_KEY = '00aa3e4aa3f4496da4194153242209';
 // const citiesNames = ['London', 'Shanghai', 'New York', 'Sydney'];
 const citiesWeather = [
-  { city: 'London', tempRange: '11.5°C - 13.4°C' },
-  { city: 'Shanghai', tempRange: '11.5°C - 13.4°C' },
-  { city: 'New York', tempRange: '11.5°C - 13.4°C' },
-  { city: 'Sydney', tempRange: '11.5°C - 13.4°C' },
+  { city: 'London', tempRange: '11.5 ~ 13.4°' },
+  { city: 'Shanghai', tempRange: '11.5 ~ 13.4°' },
+  { city: 'New York', tempRange: '11.5 ~ 13.4°' },
+  { city: 'Sydney', tempRange: '11.5 ~ 13.4°' },
 ];
 
 function CityCards() {
