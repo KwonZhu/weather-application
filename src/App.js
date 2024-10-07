@@ -4,6 +4,7 @@ import CityCards from './components/CityCards';
 import WeatherDetails from './components/WeatherDetails';
 import WeatherInfos from './components/WeatherInfos';
 import { useState, useEffect } from 'react';
+import './App.css';
 import styled from 'styled-components';
 import Flex from './utilities/Flex';
 import BackgroundImagesMap from './constants/BackgroundImagesMap';
