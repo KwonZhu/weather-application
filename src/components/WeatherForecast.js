@@ -8,15 +8,16 @@ const Wrapper = styled(Flex)`
   align-items: center;
   flex: 1; //equals to flex-grow: 1; flex-shrink: 1; flex-basis: 0;
   row-gap: 0.5rem;
+  font-size: 0.8rem;
 `;
 
 const Day = styled.div`
-  font-size: 1.8rem;
+  font-size: 1.25rem;
   font-weight: 700;
 `;
 
 const Img = styled.img`
-  width: 8rem;
+  width: 6rem;
 `;
 
 function WeatherForecast({ dayOfWeek, date, condition, tempRange }) {
