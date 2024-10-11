@@ -7,17 +7,42 @@ const Wrapper = styled(Flex)`
   flex-direction: column;
   align-items: center;
   flex: 1; //equals to flex-grow: 1; flex-shrink: 1; flex-basis: 0;
-  row-gap: 0.5rem;
+  row-gap: 0.3rem;
   font-size: 0.8rem;
+
+  @media (max-width: 650px) {
+    font-size: 0.7rem;
+    margin-bottom: 1.8rem;
+  }
+
+  @media (min-width: 651px) and (max-width: 900px) {
+    font-size: 0.75rem;
+  }
 `;
 
 const Day = styled.div`
   font-size: 1.25rem;
   font-weight: 700;
+
+  @media (max-width: 650px) {
+    font-size: 1rem;
+  }
+
+  @media (min-width: 651px) and (max-width: 900px) {
+    font-size: 1.1rem;
+  }
 `;
 
-const Img = styled.img`
+const Icon = styled.img`
   width: 6rem;
+
+  @media (max-width: 650px) {
+    width: 4rem;
+  }
+
+  @media (min-width: 651px) and (max-width: 900px) {
+    width: 5rem;
+  }
 `;
 
 function WeatherForecast({ dayOfWeek, date, condition, tempRange }) {
@@ -25,7 +50,7 @@ function WeatherForecast({ dayOfWeek, date, condition, tempRange }) {
     <Wrapper>
       <Day>{dayOfWeek}</Day>
       <div>{date}</div>
-      <Img src={WeatherIconMap(condition)} alt="Weather icon" />
+      <Icon src={WeatherIconMap(condition)} alt="Weather icon" />
       <div>{tempRange}</div>
     </Wrapper>
   );

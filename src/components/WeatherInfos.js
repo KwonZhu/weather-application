@@ -17,15 +17,35 @@ const RealTime = styled.div`
 
 const City = styled.div`
   font-size: 1.8rem;
+
+  @media (max-width: 900px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Temp = styled.div`
-  font-size: 5rem;
+  font-size: 4rem;
   font-weight: bold;
+
+  @media (max-width: 650px) {
+    font-size: 3rem;
+  }
+
+  @media (min-width: 651px) and (max-width: 900px) {
+    font-size: 3.5rem;
+  }
 `;
 
-const Img = styled.img`
-  width: 40%;
+const Icon = styled.img`
+  width: 10rem;
+
+  @media (max-width: 650px) {
+    width: 8rem;
+  }
+
+  @media (min-width: 651px) and (max-width: 900px) {
+    width: 9rem;
+  }
 `;
 
 function WeatherInfos({ realTime, city, temp, tempRange, condition }) {
@@ -35,7 +55,7 @@ function WeatherInfos({ realTime, city, temp, tempRange, condition }) {
       <City>{city}</City>
       <Temp>{temp}</Temp>
       <div>{tempRange}</div>
-      <Img src={WeatherIconMap(condition)} alt="Weather icon" />
+      <Icon src={WeatherIconMap(condition)} alt="Weather icon" />
     </Wrapper>
   );
 }
