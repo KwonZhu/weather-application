@@ -1,3 +1,5 @@
+// WeatherAssetMap(condition, 'background'), WeatherAssetMap(condition, 'icon')
+// function WeatherAssetMap(condition, assetType){}
 function BackgroundImagesMap(condition) {
   // console.log('condition', condition);
   const formattedCondition = condition.replace(/\s+/g, '_');
@@ -6,7 +8,7 @@ function BackgroundImagesMap(condition) {
   return (
     {
       Sunny: '/images/Sunny_day_background.png',
-      Partly_Cloudy: '/images/Cloudy_day_background.png',
+      Partly_cloudy: '/images/Cloudy_day_background.png',
       Overcast: '/images/Cloudy_day_background.png',
       Cloudy: '/images/Cloudy_day_background.png',
       Light_drizzle: '/images/Rain_background.png',

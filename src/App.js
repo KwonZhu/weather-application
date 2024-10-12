@@ -7,7 +7,8 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import styled from 'styled-components';
 import Flex from './utilities/Flex';
-import BackgroundImagesMap from './constants/BackgroundImagesMap';
+// import BackgroundImagesMap from './constants/BackgroundImagesMap';
+import WeatherAssetMap from './constants/WeatherAssetMap';
 
 const Container = styled(Flex)`
   min-height: 100vh;
@@ -212,9 +213,9 @@ function App() {
     <Container>
       <Wrapper>
         {/* avoid passing the url prop directly to the DOM by using transient props */}
-        {/* <Left $url={BackgroundImagesMap(weather.today.condition)}> */}
+        {/* <Left $url={WeatherAssetMap(weather.today.condition, 'background')}> */}
         <Left>
-          <Img src={BackgroundImagesMap(weather.today.condition)} alt="Weather background" />
+          <Img src={WeatherAssetMap(weather.today.condition, 'background')} alt="Weather background" />
           <div>
             <WeatherInfos
               realTime={weather.today.realTime}

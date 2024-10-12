@@ -1,5 +1,5 @@
 import React from 'react';
-import WeatherIconMap from '../constants/WeatherIconMap';
+import WeatherAssetMap from '../constants/WeatherAssetMap';
 import Flex from '../utilities/Flex';
 import styled from 'styled-components';
 
@@ -50,7 +50,7 @@ function WeatherForecast({ dayOfWeek, date, condition, tempRange }) {
     <Wrapper>
       <Day>{dayOfWeek}</Day>
       <div>{date}</div>
-      <Icon src={WeatherIconMap(condition)} alt="Weather icon" />
+      <Icon src={WeatherAssetMap(condition, 'icon')} alt="Weather icon" />
       <div>{tempRange}</div>
     </Wrapper>
   );

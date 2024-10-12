@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import WeatherIconMap from '../constants/WeatherIconMap';
+import WeatherAssetMap from '../constants/WeatherAssetMap';
 import Flex from '../utilities/Flex';
 import styled from 'styled-components';
 
 const Wrapper = styled(Flex)`
-  // margin-top: 2.5rem;
   align-items: stretch; // Ensures all CityCards are the same height
   justify-content: space-between;
   column-gap: 1rem;
@@ -111,7 +110,6 @@ function CityCards({ handleSetCityChange }) {
     );
     // citiesWeather only update once when all cities get their data
     setCitiesWeather(citiesData);
-    console.log('citiesWeather', citiesWeather);
   };
 
   useEffect(() => {
@@ -123,7 +121,7 @@ function CityCards({ handleSetCityChange }) {
       {citiesWeather.map((cityWeather) => (
         <CityCard onClick={() => handleSetCityChange(cityWeather.city)}>
           <Content>
-            <Icon src={WeatherIconMap(cityWeather.condition)} alt="Weather icon" />
+            <Icon src={WeatherAssetMap(cityWeather.condition, 'icon')} alt="Weather icon" />
             <City>{cityWeather.city}</City>
             <TempRange>{cityWeather.tempRange}</TempRange>
           </Content>
