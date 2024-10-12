@@ -7,7 +7,6 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import styled from 'styled-components';
 import Flex from './utilities/Flex';
-// import BackgroundImagesMap from './constants/BackgroundImagesMap';
 import WeatherAssetMap from './constants/WeatherAssetMap';
 
 const Container = styled(Flex)`
@@ -101,7 +100,7 @@ const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday
 function App() {
   const [weather, setWeather] = useState({
     today: {
-      realTime: '',
+      currentTime: '',
       temp: '',
       tempRange: '',
       condition: '',
@@ -144,13 +143,14 @@ function App() {
       },
       forecast: { forecastday },
     } = data;
+
     // Extracting date, maxtemp_c and mintemp_c from today (forecastday[0])
     const {
       date: todayDate,
       day: { maxtemp_c, mintemp_c },
     } = forecastday[0];
 
-    const realTime = formatRealTime(localTime, getDayFromDate(todayDate));
+    const currentTime = formatRealTime(localTime, getDayFromDate(todayDate));
 
     // transforms subarray(from index 1 to 4) data (date, day, condition, tempRange) for each forecasted day
     // fourDaysForecast[{date:"...", dayOfWeek:"...", condition: "...", tempRange:"..."}, {...}, ...]
@@ -158,11 +158,11 @@ function App() {
       date,
       dayOfWeek: getDayFromDate(date), //preserve day object (which contains mintemp_c, maxtemp_c), store the day of the week in dayOfWeek separately
       tempRange: `${day.mintemp_c}°C - ${day.maxtemp_c}°C`,
-      condition: `${day.condition.text}`,
+      condition: day.condition.text,
     }));
     setWeather({
       today: {
-        realTime,
+        currentTime,
         temp: `${temp}°`,
         tempRange: `${mintemp_c} ~ ${maxtemp_c}°C`,
         condition,
@@ -218,7 +218,7 @@ function App() {
           <Img src={WeatherAssetMap(weather.today.condition, 'background')} alt="Weather background" />
           <div>
             <WeatherInfos
-              realTime={weather.today.realTime}
+              currentTime={weather.today.currentTime}
               city={city}
               temp={weather.today.temp}
               tempRange={weather.today.tempRange}
@@ -233,6 +233,7 @@ function App() {
           <WeatherForecastContainer>
             {weather.fourDaysForecast.map((dayForecast) => (
               <WeatherForecast
+                key={dayForecast.date}
                 dayOfWeek={dayForecast.dayOfWeek}
                 date={dayForecast.date}
                 condition={dayForecast.condition}
@@ -262,7 +263,7 @@ export default App;
 // const city = 'Melbourne';
 // const weather = {
 //   today: {
-//     realTime: '01 October, Tuesday 23:31',
+//     currentTime: '01 October, Tuesday 23:31',
 //     temp: '9.1°',
 //     tempRange: '9.1 ~ 15.7°',
 //     condition: 'Sunny',

@@ -119,7 +119,7 @@ function CityCards({ handleSetCityChange }) {
   return (
     <Wrapper>
       {citiesWeather.map((cityWeather) => (
-        <CityCard onClick={() => handleSetCityChange(cityWeather.city)}>
+        <CityCard key={cityWeather.city} onClick={() => handleSetCityChange(cityWeather.city)}>
           <Content>
             <Icon src={WeatherAssetMap(cityWeather.condition, 'icon')} alt="Weather icon" />
             <City>{cityWeather.city}</City>
