@@ -83,7 +83,7 @@ function CityCards({ handleSetCityChange }) {
     const {
       day: { maxtemp_c, mintemp_c },
     } = forecastday[0];
-    const tempRange = `${mintemp_c}°C - ${maxtemp_c}°C`;
+    const tempRange = `${mintemp_c} ~ ${maxtemp_c}°`;
     // setCitiesWeather((prevCitiesWeather) => [...prevCitiesWeather, { city, tempRange, condition }]);
     // instead of immediately updating the state, accumulating the results in an array (citiesData)
     return { city, tempRange, condition };

@@ -121,13 +121,23 @@ function App() {
     return weekday[date.getDay()]; //getDay() return 0 - 6
   };
 
-  function formatRealTime(localTime, dayOfToday) {
+  function formatRealTime(localTime, dayOfWeek) {
     const date = new Date(localTime);
     const options = { day: '2-digit', month: 'long' };
     const formattedDate = date.toLocaleDateString('en-US', options);
     const time = localTime.split(' ')[1]; // Extract time from 'YYYY-MM-DD HH:MM'
-    return `${formattedDate}, ${dayOfToday} ${time}`;
+    return `${formattedDate}, ${dayOfWeek} ${time}`;
   }
+
+  // for both today and four future days
+  // Extracting dayOfWeek, tempRange for today (forecastday[0])
+  // Extracting date, dayOfWeek, tempRange, condition for fourDaysForecast (forecastday[1-4])
+  const getDataFromForecastDay = ({ date, day }) => ({
+    date,
+    dayOfWeek: getDayFromDate(date), //preserve day object (which contains mintemp_c, maxtemp_c, condition.text), store the day of the week in dayOfWeek separately
+    tempRange: `${day.mintemp_c} ~ ${day.maxtemp_c}°`,
+    condition: day.condition.text,
+  });
 
   const handleWeatherChange = (data) => {
     // Destructuring the weather API data
@@ -141,30 +151,33 @@ function App() {
         feelslike_c: somatosensoryTemp,
         air_quality: { pm2_5: pm25 },
       },
-      forecast: { forecastday },
+      forecast: { forecastday }, //forecast is an array contains today and four future days
     } = data;
 
-    // Extracting date, maxtemp_c and mintemp_c from today (forecastday[0])
-    const {
-      date: todayDate,
-      day: { maxtemp_c, mintemp_c },
-    } = forecastday[0];
+    const todayWeather = getDataFromForecastDay(forecastday[0]);
+    // // Extracting date, maxtemp_c and mintemp_c from today (forecastday[0])
+    // const {
+    //   date: todayDate,
+    //   day: { maxtemp_c, mintemp_c },
+    // } = forecastday[0];
 
-    const currentTime = formatRealTime(localTime, getDayFromDate(todayDate));
+    const currentTime = formatRealTime(localTime, todayWeather.dayOfWeek);
 
-    // transforms subarray(from index 1 to 4) data (date, day, condition, tempRange) for each forecasted day
+    // transforms subarray(from index 1 to 4) data (date, day) for each forecasted day
     // fourDaysForecast[{date:"...", dayOfWeek:"...", condition: "...", tempRange:"..."}, {...}, ...]
-    const fourDaysForecast = forecastday.slice(1, 5).map(({ date, day }) => ({
-      date,
-      dayOfWeek: getDayFromDate(date), //preserve day object (which contains mintemp_c, maxtemp_c), store the day of the week in dayOfWeek separately
-      tempRange: `${day.mintemp_c}°C - ${day.maxtemp_c}°C`,
-      condition: day.condition.text,
-    }));
+    const fourDaysForecast = forecastday.slice(1, 5).map(getDataFromForecastDay);
+
+    // const fourDaysForecast = forecastday.slice(1, 5).map(({ date, day }) => ({
+    //   date,
+    //   dayOfWeek: getDayFromDate(date), //preserve day object (which contains mintemp_c, maxtemp_c, condition.text), store the day of the week in dayOfWeek separately
+    //   tempRange: `${day.mintemp_c}°C - ${day.maxtemp_c}°C`,
+    //   condition: day.condition.text,
+    // }));
     setWeather({
       today: {
         currentTime,
         temp: `${temp}°`,
-        tempRange: `${mintemp_c} ~ ${maxtemp_c}°C`,
+        tempRange: todayWeather.tempRange,
         condition,
         details: {
           windSpeed,
