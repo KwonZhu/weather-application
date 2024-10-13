@@ -45,7 +45,6 @@ const Left = styled(Flex)`
   flex-direction: column;
   border-radius: 2rem;
   padding: 1rem;
-  // background: ${(props) => `linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219)), url(${props.$url})`};
   background: linear-gradient(rgb(131, 154, 239) 30%, rgb(95, 76, 219));
   background-size: cover;
   background-position: center;
@@ -97,6 +96,29 @@ const WeatherForecastContainer = styled(Flex)`
 const API_KEY = '00aa3e4aa3f4496da4194153242209';
 const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+const getDayFromDate = (dateString) => {
+  const date = new Date(dateString);
+  return weekday[date.getDay()]; //getDay() return 0 - 6
+};
+
+const formatRealTime = (localTime, dayOfWeek) => {
+  const date = new Date(localTime);
+  const options = { day: '2-digit', month: 'long' };
+  const formattedDate = date.toLocaleDateString('en-US', options);
+  const time = localTime.split(' ')[1]; // Extract time from 'YYYY-MM-DD HH:MM'
+  return `${formattedDate}, ${dayOfWeek} ${time}`;
+};
+
+// for both today and four future days
+// Extracting dayOfWeek, tempRange for today (forecastday[0])
+// Extracting date, dayOfWeek, tempRange, condition for fourDaysForecast (forecastday[1-4])
+const getDataFromForecastDay = ({ date, day }) => ({
+  date,
+  dayOfWeek: getDayFromDate(date), //preserve day object (which contains mintemp_c, maxtemp_c, condition.text), store the day of the week in dayOfWeek separately
+  tempRange: `${day.mintemp_c} ~ ${day.maxtemp_c}°`,
+  condition: day.condition.text,
+});
+
 function App() {
   const [weather, setWeather] = useState({
     today: {
@@ -116,29 +138,6 @@ function App() {
   const [city, setCity] = useState('Melbourne');
   const [inputValue, setInputValue] = useState('');
 
-  const getDayFromDate = (dateString) => {
-    const date = new Date(dateString);
-    return weekday[date.getDay()]; //getDay() return 0 - 6
-  };
-
-  function formatRealTime(localTime, dayOfWeek) {
-    const date = new Date(localTime);
-    const options = { day: '2-digit', month: 'long' };
-    const formattedDate = date.toLocaleDateString('en-US', options);
-    const time = localTime.split(' ')[1]; // Extract time from 'YYYY-MM-DD HH:MM'
-    return `${formattedDate}, ${dayOfWeek} ${time}`;
-  }
-
-  // for both today and four future days
-  // Extracting dayOfWeek, tempRange for today (forecastday[0])
-  // Extracting date, dayOfWeek, tempRange, condition for fourDaysForecast (forecastday[1-4])
-  const getDataFromForecastDay = ({ date, day }) => ({
-    date,
-    dayOfWeek: getDayFromDate(date), //preserve day object (which contains mintemp_c, maxtemp_c, condition.text), store the day of the week in dayOfWeek separately
-    tempRange: `${day.mintemp_c} ~ ${day.maxtemp_c}°`,
-    condition: day.condition.text,
-  });
-
   const handleWeatherChange = (data) => {
     // Destructuring the weather API data
     const {
@@ -154,25 +153,14 @@ function App() {
       forecast: { forecastday }, //forecast is an array contains today and four future days
     } = data;
 
+    // get dayOfWeek, tempRange from forecastday[0]
     const todayWeather = getDataFromForecastDay(forecastday[0]);
-    // // Extracting date, maxtemp_c and mintemp_c from today (forecastday[0])
-    // const {
-    //   date: todayDate,
-    //   day: { maxtemp_c, mintemp_c },
-    // } = forecastday[0];
 
     const currentTime = formatRealTime(localTime, todayWeather.dayOfWeek);
 
     // transforms subarray(from index 1 to 4) data (date, day) for each forecasted day
-    // fourDaysForecast[{date:"...", dayOfWeek:"...", condition: "...", tempRange:"..."}, {...}, ...]
     const fourDaysForecast = forecastday.slice(1, 5).map(getDataFromForecastDay);
 
-    // const fourDaysForecast = forecastday.slice(1, 5).map(({ date, day }) => ({
-    //   date,
-    //   dayOfWeek: getDayFromDate(date), //preserve day object (which contains mintemp_c, maxtemp_c, condition.text), store the day of the week in dayOfWeek separately
-    //   tempRange: `${day.mintemp_c}°C - ${day.maxtemp_c}°C`,
-    //   condition: day.condition.text,
-    // }));
     setWeather({
       today: {
         currentTime,
@@ -225,8 +213,6 @@ function App() {
   return (
     <Container>
       <Wrapper>
-        {/* avoid passing the url prop directly to the DOM by using transient props */}
-        {/* <Left $url={WeatherAssetMap(weather.today.condition, 'background')}> */}
         <Left>
           <Img src={WeatherAssetMap(weather.today.condition, 'background')} alt="Weather background" />
           <div>
