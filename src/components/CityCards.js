@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import WeatherAssetMap from "../constants/WeatherAssetMap";
 import Flex from "../utilities/Flex";
 import styled from "styled-components";
@@ -67,7 +67,7 @@ const Background = styled.img`
   z-index: 1;
 `;
 
-const API_KEY = "00aa3e4aa3f4496da4194153242209";
+const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 const citiesNames = ["London", "Shanghai", "New York", "Sydney"];
 
 function CityCards({ handleSetCityChange }) {
@@ -90,7 +90,8 @@ function CityCards({ handleSetCityChange }) {
   };
 
   // Fetch weather data for all cities
-  const fetchCitiesWeather = async () => {
+  // Use useCallback to Memoize fetchCitiesWeather to ensure it has a stable reference between renders
+  const fetchCitiesWeather = useCallback(async () => {
     //await Promise.all() waits until all promises are resolved before continuing
     //citiesData contains return result of each city, which is {city: 'xxx', tempRange: 'xxx', condition: 'xxx'}
     const citiesData = await Promise.all(
@@ -110,16 +111,11 @@ function CityCards({ handleSetCityChange }) {
     );
     // citiesWeather only update once when all cities get their data
     setCitiesWeather(citiesData);
-  };
+  }, []); // Dependencies: if `API_KEY` or `citiesNames` change, recreate function
 
   useEffect(() => {
-    // fetchCitiesWeather is an async function, which should not be placed directly inside useEffect().
-    // Instead, wrap it inside another function
-    const getWeatherData = async () => {
-      await fetchCitiesWeather();
-    };
-    getWeatherData();
-  }, []);
+    fetchCitiesWeather();
+  }, [fetchCitiesWeather]); // before was [], now with [fetchCitiesWeather], ESLint won't complain when deploying
 
   return (
     <Wrapper>
