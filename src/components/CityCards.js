@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import WeatherAssetMap from '../constants/WeatherAssetMap';
-import Flex from '../utilities/Flex';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import WeatherAssetMap from "../constants/WeatherAssetMap";
+import Flex from "../utilities/Flex";
+import styled from "styled-components";
 
 const Wrapper = styled(Flex)`
   align-items: stretch; // Ensures all CityCards are the same height
@@ -67,8 +67,8 @@ const Background = styled.img`
   z-index: 1;
 `;
 
-const API_KEY = '00aa3e4aa3f4496da4194153242209';
-const citiesNames = ['London', 'Shanghai', 'New York', 'Sydney'];
+const API_KEY = "00aa3e4aa3f4496da4194153242209";
+const citiesNames = ["London", "Shanghai", "New York", "Sydney"];
 
 function CityCards({ handleSetCityChange }) {
   const [citiesWeather, setCitiesWeather] = useState([]);
@@ -104,7 +104,7 @@ function CityCards({ handleSetCityChange }) {
           const data = await response.json();
           return handleCitiesWeatherChange(city, data);
         } catch (error) {
-          console.error('Error:', error.message);
+          console.error("Error:", error.message);
         }
       })
     );
@@ -113,19 +113,32 @@ function CityCards({ handleSetCityChange }) {
   };
 
   useEffect(() => {
-    fetchCitiesWeather();
+    // fetchCitiesWeather is an async function, which should not be placed directly inside useEffect().
+    // Instead, wrap it inside another function
+    const getWeatherData = async () => {
+      await fetchCitiesWeather();
+    };
+    getWeatherData();
   }, []);
 
   return (
     <Wrapper>
       {citiesWeather.map((cityWeather) => (
-        <CityCard key={cityWeather.city} onClick={() => handleSetCityChange(cityWeather.city)}>
+        <CityCard
+          key={cityWeather.city}
+          onClick={() => handleSetCityChange(cityWeather.city)}>
           <Content>
-            <Icon src={WeatherAssetMap(cityWeather.condition, 'icon')} alt="Weather icon" />
+            <Icon
+              src={WeatherAssetMap(cityWeather.condition, "icon")}
+              alt="Weather icon"
+            />
             <City>{cityWeather.city}</City>
             <TempRange>{cityWeather.tempRange}</TempRange>
           </Content>
-          <Background src={`/images/${cityWeather.city}.png`} alt={`${cityWeather.city} weather`} />
+          <Background
+            src={`/images/${cityWeather.city}.png`}
+            alt={`${cityWeather.city} weather`}
+          />
         </CityCard>
       ))}
     </Wrapper>
