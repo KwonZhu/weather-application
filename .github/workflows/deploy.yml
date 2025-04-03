@@ -1,0 +1,34 @@
+name: Deploy React App to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Deploy when pushing to main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Updated to Node.js 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Inject API Key (GitHub Secret)
+        run: echo "REACT_APP_WEATHER_API_KEY=${{ secrets.REACT_APP_WEATHER_API_KEY }}" >> .env
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages # This will create the branch if it doesn’t exist
+          folder: build

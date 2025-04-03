@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import WeatherAssetMap from '../constants/WeatherAssetMap';
-import Flex from '../utilities/Flex';
-import styled from 'styled-components';
+import React, { useState, useEffect, useCallback } from "react";
+import WeatherAssetMap from "../constants/WeatherAssetMap";
+import Flex from "../utilities/Flex";
+import styled from "styled-components";
 
 const Wrapper = styled(Flex)`
   align-items: stretch; // Ensures all CityCards are the same height
@@ -67,8 +67,8 @@ const Background = styled.img`
   z-index: 1;
 `;
 
-const API_KEY = '00aa3e4aa3f4496da4194153242209';
-const citiesNames = ['London', 'Shanghai', 'New York', 'Sydney'];
+const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+const citiesNames = ["London", "Shanghai", "New York", "Sydney"];
 
 function CityCards({ handleSetCityChange }) {
   const [citiesWeather, setCitiesWeather] = useState([]);
@@ -90,12 +90,13 @@ function CityCards({ handleSetCityChange }) {
   };
 
   // Fetch weather data for all cities
-  const fetchCitiesWeather = async () => {
+  // Use useCallback to Memoize fetchCitiesWeather to ensure it has a stable reference between renders
+  const fetchCitiesWeather = useCallback(async () => {
     //await Promise.all() waits until all promises are resolved before continuing
     //citiesData contains return result of each city, which is {city: 'xxx', tempRange: 'xxx', condition: 'xxx'}
     const citiesData = await Promise.all(
       citiesNames.map(async (city) => {
-        const API_URL = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=1&aqi=no`;
+        const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=1&aqi=no`;
         try {
           const response = await fetch(API_URL);
           if (!response.ok) {
@@ -104,28 +105,36 @@ function CityCards({ handleSetCityChange }) {
           const data = await response.json();
           return handleCitiesWeatherChange(city, data);
         } catch (error) {
-          console.error('Error:', error.message);
+          console.error("Error:", error.message);
         }
       })
     );
     // citiesWeather only update once when all cities get their data
     setCitiesWeather(citiesData);
-  };
+  }, []); // Dependencies: if `API_KEY` or `citiesNames` change, recreate function
 
   useEffect(() => {
     fetchCitiesWeather();
-  }, []);
+  }, [fetchCitiesWeather]); // before was [], now with [fetchCitiesWeather] (fetchCitiesWeather is stable), ESLint won't complain when deploying
 
   return (
     <Wrapper>
       {citiesWeather.map((cityWeather) => (
-        <CityCard key={cityWeather.city} onClick={() => handleSetCityChange(cityWeather.city)}>
+        <CityCard
+          key={cityWeather.city}
+          onClick={() => handleSetCityChange(cityWeather.city)}>
           <Content>
-            <Icon src={WeatherAssetMap(cityWeather.condition, 'icon')} alt="Weather icon" />
+            <Icon
+              src={WeatherAssetMap(cityWeather.condition, "icon")}
+              alt="Weather icon"
+            />
             <City>{cityWeather.city}</City>
             <TempRange>{cityWeather.tempRange}</TempRange>
           </Content>
-          <Background src={`/images/${cityWeather.city}.png`} alt={`${cityWeather.city} weather`} />
+          <Background
+            src={`/images/${cityWeather.city}.png`}
+            alt={`${cityWeather.city} weather`}
+          />
         </CityCard>
       ))}
     </Wrapper>

@@ -1,6 +1,6 @@
-import React from 'react';
-import Flex from '../utilities/Flex';
-import styled from 'styled-components';
+import React from "react";
+import Flex from "../utilities/Flex";
+import styled from "styled-components";
 
 const Wrapper = styled(Flex)`
   position: relative;
@@ -66,13 +66,22 @@ const Button = styled.button`
   }
 `;
 
-function SearchBar({ inputValue, handleSetInputValueChange, handleSetCityChange }) {
+function SearchBar({
+  inputValue,
+  handleSetInputValueChange,
+  handleSetCityChange,
+}) {
   return (
     <Wrapper>
       {/* user input */}
-      <Input type="text" placeholder="Search for a city" value={inputValue} onChange={handleSetInputValueChange} />
+      <Input
+        type="text"
+        placeholder="Search for a city"
+        value={inputValue}
+        onChange={handleSetInputValueChange}
+      />
       {/* trigger new API call when click*/}
-      <Button onClick={handleSetCityChange}>Search</Button>
+      <Button onClick={() => handleSetCityChange()}>Search</Button>
     </Wrapper>
   );
 }

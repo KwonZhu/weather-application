@@ -1,17 +1,17 @@
-import SearchBar from './components/SearchBar';
-import WeatherForecast from './components/WeatherForecast';
-import CityCards from './components/CityCards';
-import WeatherDetails from './components/WeatherDetails';
-import WeatherInfos from './components/WeatherInfos';
-import { useState, useEffect } from 'react';
-import './App.css';
-import styled from 'styled-components';
-import Flex from './utilities/Flex';
-import WeatherAssetMap from './constants/WeatherAssetMap';
+import SearchBar from "./components/SearchBar";
+import WeatherForecast from "./components/WeatherForecast";
+import CityCards from "./components/CityCards";
+import WeatherDetails from "./components/WeatherDetails";
+import WeatherInfos from "./components/WeatherInfos";
+import { useState, useEffect } from "react";
+import "./App.css";
+import styled from "styled-components";
+import Flex from "./utilities/Flex";
+import WeatherAssetMap from "./constants/WeatherAssetMap";
 
 const Container = styled(Flex)`
   min-height: 100vh;
-  background: url('/images/bg.png') no-repeat center center fixed;
+  background: url("/images/bg.png") no-repeat center center fixed;
   background-size: cover;
   align-items: center;
   justify-content: center;
@@ -93,8 +93,16 @@ const WeatherForecastContainer = styled(Flex)`
   }
 `;
 
-const API_KEY = '00aa3e4aa3f4496da4194153242209';
-const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+const weekday = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 const getDayFromDate = (dateString) => {
   const date = new Date(dateString);
@@ -103,9 +111,9 @@ const getDayFromDate = (dateString) => {
 
 const formatRealTime = (localTime, dayOfWeek) => {
   const date = new Date(localTime);
-  const options = { day: '2-digit', month: 'long' };
-  const formattedDate = date.toLocaleDateString('en-US', options);
-  const time = localTime.split(' ')[1]; // Extract time from 'YYYY-MM-DD HH:MM'
+  const options = { day: "2-digit", month: "long" };
+  const formattedDate = date.toLocaleDateString("en-US", options);
+  const time = localTime.split(" ")[1]; // Extract time from 'YYYY-MM-DD HH:MM'
   return `${formattedDate}, ${dayOfWeek} ${time}`;
 };
 
@@ -122,21 +130,21 @@ const getDataFromForecastDay = ({ date, day }) => ({
 function App() {
   const [weather, setWeather] = useState({
     today: {
-      currentTime: '',
-      temp: '',
-      tempRange: '',
-      condition: '',
+      currentTime: "",
+      temp: "",
+      tempRange: "",
+      condition: "",
       details: {
-        windSpeed: '',
-        humidity: '',
-        somatosensoryTemp: '',
-        pm25: '',
+        windSpeed: "",
+        humidity: "",
+        somatosensoryTemp: "",
+        pm25: "",
       },
     },
     fourDaysForecast: [],
   });
-  const [city, setCity] = useState('Melbourne');
-  const [inputValue, setInputValue] = useState('');
+  const [city, setCity] = useState("Melbourne");
+  const [inputValue, setInputValue] = useState("");
 
   const handleWeatherChange = (data) => {
     // Destructuring the weather API data
@@ -159,7 +167,9 @@ function App() {
     const currentTime = formatRealTime(localTime, todayWeather.dayOfWeek);
 
     // transforms subarray(from index 1 to 4) data (date, day) for each forecasted day
-    const fourDaysForecast = forecastday.slice(1, 5).map(getDataFromForecastDay);
+    const fourDaysForecast = forecastday
+      .slice(1, 5)
+      .map(getDataFromForecastDay);
 
     setWeather({
       today: {
@@ -178,10 +188,12 @@ function App() {
     });
   };
 
+  // Updates input value from SearchBar input field
   const handleSetInputValueChange = (event) => {
     setInputValue(event.target.value);
   };
 
+  // Handles city selection from either SearchBar or CityCards
   // When click event occurs in SearchBar, selectedCity set as default value null
   const handleSetCityChange = (selectedCity = null) => {
     if (selectedCity) {
@@ -195,7 +207,8 @@ function App() {
 
   useEffect(() => {
     const fetchWeather = async () => {
-      const API_URL = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=5&aqi=yes&alerts=yes`;
+      // We can only query the weather for 3 days now because the trial has expired
+      const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=5&aqi=yes&alerts=yes`;
       try {
         const response = await fetch(API_URL);
         if (!response.ok) {
@@ -204,7 +217,7 @@ function App() {
         const data = await response.json();
         handleWeatherChange(data);
       } catch (error) {
-        console.error('Error:', error.message);
+        console.error("Error:", error.message);
       }
     };
     fetchWeather();
@@ -214,7 +227,11 @@ function App() {
     <Container>
       <Wrapper>
         <Left>
-          <Img src={WeatherAssetMap(weather.today.condition, 'background')} alt="Weather background" />
+          {/* Weather background image changes based on current weather condition */}
+          <Img
+            src={WeatherAssetMap(weather.today.condition, "background")}
+            alt="Weather background"
+          />
           <div>
             <WeatherInfos
               currentTime={weather.today.currentTime}
@@ -230,6 +247,7 @@ function App() {
         </Left>
         <Right>
           <WeatherForecastContainer>
+            {/* Mapping forecast data to display WeatherForecast components */}
             {weather.fourDaysForecast.map((dayForecast) => (
               <WeatherForecast
                 key={dayForecast.date}
