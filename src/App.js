@@ -11,7 +11,10 @@ import WeatherAssetMap from "./constants/WeatherAssetMap";
 
 const Container = styled(Flex)`
   min-height: 100vh;
-  background: url("/images/bg.png") no-repeat center center fixed;
+  // Before was background: url("/images/bg.png"), PUBLIC_URL is automatically set by Create React App (CRA) to match the homepage in package.json
+  // It ensures assets resolve correctly in both development (/) and production
+  background: url(${process.env.PUBLIC_URL}/images/bg.png) no-repeat center
+    center fixed;
   background-size: cover;
   align-items: center;
   justify-content: center;

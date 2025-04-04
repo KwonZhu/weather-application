@@ -111,7 +111,7 @@ function CityCards({ handleSetCityChange }) {
     );
     // citiesWeather only update once when all cities get their data
     setCitiesWeather(citiesData);
-  }, []); // Dependencies: if `API_KEY` or `citiesNames` change, recreate function
+  }, []); // Empty dependency array (since API_KEY and citiesNames are static)
 
   useEffect(() => {
     fetchCitiesWeather();
@@ -132,7 +132,8 @@ function CityCards({ handleSetCityChange }) {
             <TempRange>{cityWeather.tempRange}</TempRange>
           </Content>
           <Background
-            src={`/images/${cityWeather.city}.png`}
+            // Before was src={`/images/${cityWeather.city}.png`}, now it works in both development (/) and production
+            src={`${process.env.PUBLIC_URL}/images/${cityWeather.city}.png`}
             alt={`${cityWeather.city} weather`}
           />
         </CityCard>

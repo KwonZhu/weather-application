@@ -1,6 +1,6 @@
-import React from 'react';
-import Flex from '../utilities/Flex';
-import styled from 'styled-components';
+import React from "react";
+import Flex from "../utilities/Flex";
+import styled from "styled-components";
 
 const Wrapper = styled(Flex)`
   align-items: center;
@@ -29,7 +29,8 @@ function WeatherDetails({ details }) {
     <Wrapper>
       {Object.entries(details).map(([key, value]) => (
         <Detail key={key}>
-          <img src={`/images/${key}.svg`} alt={key} />
+          {/* Before was src={`/images/${key}.svg`}, now it works in both development (/) and production */}
+          <img src={`${process.env.PUBLIC_URL}/images/${key}.svg`} alt={key} />
           {value}
         </Detail>
       ))}
